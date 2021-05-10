@@ -2,9 +2,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <title>Tic Tac Toe</title>
+
 </head>
 <body>
-    
+  <div class="select-marker">
+    <h3>Select Marker</h3>
+    <button id="marker-x" class="markerSelection" type="button" name="button">X</button>
+    <button id="marker-o" class="markerSelection" type="button" name="button">O</button>
+  </div>
+
+  <div class="enemy-select">
+    <h3>Select Opponent</h3>
+    <button id="player2" class="opponentPlayer" type="button" name="button">Player 2</button>
+    <button id="ai" class="opponentPlayer" type="button" name="button">AI</button>
+  </div>
+
+  <div class="">
+    <button class="start-game" type="button" name="button">Start Game</button>
+    <button class="restart-game" type="button" name="button">Restart</button>
+  </div>
+
+  <div class="gameboard">
+      <div class="grid-container">
+        <div id="0" class="grid-item"> <span></span> </div>
+        <div id="1" class="grid-item"> <span></span> </div>
+        <div id="2" class="grid-item"> <span></span> </div>
+        <div id="3" class="grid-item"> <span></span> </div>
+        <div id="4" class="grid-item"> <span></span> </div>
+        <div id="5" class="grid-item"> <span></span> </div>
+        <div id="6" class="grid-item"> <span></span> </div>
+        <div id="7" class="grid-item"> <span></span> </div>
+        <div id="8" class="grid-item"> <span></span> </div>
+      </div>
+  </div>
+  <script type="text/javascript" src="scripts.js"></script>
 </body>
 </html>
