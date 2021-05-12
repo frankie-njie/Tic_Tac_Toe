@@ -4,36 +4,45 @@ const gridItems = document.getElementsByClassName('grid-item');
 //const player2 = document.querySelector('#player2');
 const ai = document.querySelector('ai');
 
+//const displayController 
 
 const gameBoard = (() => {
   for (let i = 0; i < gridItems.length; i++) {
-    gridItems[i].addEventListener('click', function(e) {
-        insertSymbol(e.target.id)
-    })
+    gridItems[i].addEventListener('click', playGame)
   }
 
     const _players = []
-    var board = new Array(9).fill('')
+    let board = new Array(9).fill('')
     let isPlayer2HumanOrAI = false
     let round = 0
+    //let endGame = false
+    console.log(board);
 
     function setPlayer(index, p) {
         _players[index] = p
     }
 
     function getPlayers() {
-        return players
+        return _players
     }
 
     function insertSymbol(id) {
         if (board[id] !== "") {
-            alert('position is already occupied')
+            console.log('Invalid move');
+            return false
         }
-        var element = document.getElementById(id)
-        var currentPlayerIndex = round % 2
-        var player = _players[currentPlayerIndex]
+        
+        let element = document.getElementById(id)
+        let currentPlayerIndex = round % 2
+        let player = _players[currentPlayerIndex]
         element.textContent = player.mark
         board[id] = player.mark
+        if(checkWin(board, player.mark) || checkDraw(board, player.mark)){
+          endGame();
+          console.log(endGame());
+        }
+        
+        //console.log(board);
             /**
              * if horizontal wins, end game
              * if vertical wins, end game
@@ -44,6 +53,9 @@ const gameBoard = (() => {
 
         round++
         nextPlayer()
+    }
+    function playGame(e){
+      insertSymbol(e.target.id);
     }
 
     function setPlayer2HumanOrAI(b) {
@@ -57,25 +69,76 @@ const gameBoard = (() => {
          */
     }
 
-    function checkWin(board, symbol) {
 
+    function _checkHorizontal (board, mark){
+
+     if (board[0] === mark && board[1] === mark && board[2] === mark  ||
+      board[3] === mark && board[4] === mark && board[5] === mark ||
+      board[6] === mark && board[7] === mark && board[8] === mark
+      ){     
+        console.log("winner is ",mark);
+        return true
+     }      
     }
 
-    function checkDraw(board, symbol) {
+    function _checkVertical (board, mark){
 
+      if (board[0] === mark && board[3] === mark && board[6] === mark  ||
+       board[1] === mark && board[4] === mark && board[7] === mark ||
+       board[2] === mark && board[5] === mark && board[8] === mark
+       ){     
+         console.log("winner is ",mark);
+         return true
+      }      
+     }
+
+    function _checkDiagonal (board, mark){
+
+      if (board[0] === mark && board[4] === mark && board[8] === mark  ||
+       board[2] === mark && board[4] === mark && board[6] === mark
+       ){     
+         console.log("winner is ",mark);
+         return true
+      }      
+     }
+
+    let checkWin = function (board, mark) {
+
+      if (_checkHorizontal(board, mark) || _checkVertical(board, mark) || _checkDiagonal(board, mark) ){
+        console.log("winner is ", mark);
+        return true
+      }
+      return false
+    } 
+
+    let checkDraw = function (board, mark) {
+
+      let boardIsFull = board.indexOf('')
+      console.log( boardIsFull);
+     
+      if(!checkWin(board, mark) && boardIsFull === -1 ){
+        console.log("We have a tie");
+        return "We have a tie !"
+      }
+    }
+    const endGame = () => {
+      for( let i = 0; i < gridItems.length; i++){
+        console.log();
+        gridItems[i].removeEventListener('click', playGame)
+      }
     }
 
-    return { setPlayer, getPlayers, insertSymbol, setPlayer2HumanOrAI }
+
+    return { setPlayer, getPlayers, insertSymbol, setPlayer2HumanOrAI, checkWin, checkDraw }
 
 })();
 
 
 
-
-const getPlayers = (() => {
+const createPlayers = (() => {
   function Player(mark) {
     return { mark }
-}
+  }
 
 marker_o.addEventListener('click', function(e) {
     player1 = Player('o');
@@ -90,8 +153,6 @@ marker_x.addEventListener('click', function(e) {
     gameBoard.setPlayer(0, player1)
     gameBoard.setPlayer(1, player2)
 });
-
-return{Player}
 })();
 
 
