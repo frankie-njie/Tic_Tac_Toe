@@ -81,20 +81,21 @@ const gameBoard = (() => {
       // console.log(availableIndices);
       // console.log(availableIndices)
       //const index = Math.floor(Math.random() * availableIndices.length);
-      let randomIndex = board[Math.floor(Math.random() * board.length)];
+      let randomIndex = Math.floor(Math.random() * board.length);
+      
       
       //console.log(board.includes(''))
       console.log(randomIndex);
-      // if(board[randomIndex] === ""){
-      //   insertSymbol(randomIndex);
-      //   console.log(board.length );
-      // }
-      // // else if(board !== "") {
-      // //   console.log("board is full");
-      // //   return 0
-      // // }
-      // else aiMove()
-      
+      if(board[randomIndex] === ""){
+        insertSymbol(randomIndex);
+        console.log(board.length );
+        return 0
+      }
+      else if(checkDraw(board, aiSymbol)) {
+        console.log("board is full");
+        return false
+      }
+      else aiMove()
 
       
       //input player2symbol in a random position in board array
