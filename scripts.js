@@ -1,8 +1,8 @@
 let marker_x = document.getElementById('marker-x');
 let marker_o = document.getElementById('marker-o');
 const gridItems = document.getElementsByClassName('grid-item');
-//const player2 = document.querySelector('#player2');
-const ai = document.querySelector('ai');
+const humanPlayer = document.querySelector('#player2');
+const aiPlayer = document.querySelector('#ai');
 
 //const displayController 
 
@@ -37,9 +37,9 @@ const gameBoard = (() => {
         let player = _players[currentPlayerIndex]
         element.textContent = player.mark
         board[id] = player.mark
+        
         if(checkWin(board, player.mark) || checkDraw(board, player.mark)){
-          endGame();
-          console.log(endGame());
+          _endGame();
         }
         
         //console.log(board);
@@ -58,25 +58,70 @@ const gameBoard = (() => {
       insertSymbol(e.target.id);
     }
 
-    function setPlayer2HumanOrAI(b) {
-        isPlayer2HumanOrAI = b
+    function setPlayer2HumanOrAI(opponent, opponentSymbol) {
+        isPlayer2HumanOrAI = opponent;
+        //const isAI = opponent === 'ai';
+        // const player2 = { ...gameBoard.getPlayers()[1], isAI }
+        // gameBoard.setPlayer(1, player2);
+        console.log(isPlayer2HumanOrAI);
+    }
+
+    function aiMove() {
+      //for ai moves, get player2 symbol or mark
+      let aiSymbol = _players[1].mark
+      console.log(aiSymbol);
+      console.log(board);
+      // var availableIndices = board.map((v, i) => console.log(v)).filter((v, i) => {
+      //   console.log(!board[i]);
+      //   return !board[i];
+      // });
+      //let availableIndices = board.filter(element => element === "")
+      //console.log("avail indicies", availableIndices);
+
+      // console.log(availableIndices);
+      // console.log(availableIndices)
+      //const index = Math.floor(Math.random() * availableIndices.length);
+      let randomIndex = board[Math.floor(Math.random() * board.length)];
+      
+      //console.log(board.includes(''))
+      console.log(randomIndex);
+      // if(board[randomIndex] === ""){
+      //   insertSymbol(randomIndex);
+      //   console.log(board.length );
+      // }
+      // // else if(board !== "") {
+      // //   console.log("board is full");
+      // //   return 0
+      // // }
+      // else aiMove()
+      
+
+      
+      //input player2symbol in a random position in board array
+      //display symbol in corresponding position on div
+    }
+    let random = () => {
+      
     }
 
     function nextPlayer() {
+      if((round % 2) && isPlayer2HumanOrAI === "ai"){
+        aiMove()
+      }else {
+        return
+      }
         /**
          * if next player == AI, then make AI move.
          * else, do nothing and wait for human player 2 to play.
          */
     }
 
-
     function _checkHorizontal (board, mark){
 
      if (board[0] === mark && board[1] === mark && board[2] === mark  ||
       board[3] === mark && board[4] === mark && board[5] === mark ||
       board[6] === mark && board[7] === mark && board[8] === mark
-      ){     
-        console.log("winner is ",mark);
+      ){    
         return true
      }      
     }
@@ -87,7 +132,6 @@ const gameBoard = (() => {
        board[1] === mark && board[4] === mark && board[7] === mark ||
        board[2] === mark && board[5] === mark && board[8] === mark
        ){     
-         console.log("winner is ",mark);
          return true
       }      
      }
@@ -97,7 +141,6 @@ const gameBoard = (() => {
       if (board[0] === mark && board[4] === mark && board[8] === mark  ||
        board[2] === mark && board[4] === mark && board[6] === mark
        ){     
-         console.log("winner is ",mark);
          return true
       }      
      }
@@ -114,22 +157,22 @@ const gameBoard = (() => {
     let checkDraw = function (board, mark) {
 
       let boardIsFull = board.indexOf('')
-      console.log( boardIsFull);
+      //console.log( boardIsFull);
      
       if(!checkWin(board, mark) && boardIsFull === -1 ){
         console.log("We have a tie");
         return "We have a tie !"
       }
     }
-    const endGame = () => {
+    const _endGame = () => {
       for( let i = 0; i < gridItems.length; i++){
-        console.log();
         gridItems[i].removeEventListener('click', playGame)
       }
     }
 
 
-    return { setPlayer, getPlayers, insertSymbol, setPlayer2HumanOrAI, checkWin, checkDraw }
+
+    return { setPlayer, getPlayers, insertSymbol, setPlayer2HumanOrAI, checkWin, checkDraw, aiMove }
 
 })();
 
@@ -153,10 +196,21 @@ marker_x.addEventListener('click', function(e) {
     gameBoard.setPlayer(0, player1)
     gameBoard.setPlayer(1, player2)
 });
+
+humanPlayer.addEventListener('click', function(e){
+  console.log(player2);
+  gameBoard.setPlayer2HumanOrAI('human',player2)
+})
+aiPlayer.addEventListener('click', function(e) {
+  console.log(e.target.value);
+  gameBoard.setPlayer2HumanOrAI('ai', player2)
+})
 })();
 
 
-
+// To select an opponent, click human or ai
+// if human is clicked assigned player2 marker to human or if ai is clicked assign player 2 marker to ai
+// To
 
 
 
