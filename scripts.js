@@ -1,12 +1,37 @@
 let marker_x = document.getElementById('marker-x');
 let marker_o = document.getElementById('marker-o');
+const gameBoardDiv =document.querySelector('.gameboard')
 const gridItems = document.getElementsByClassName('grid-item');
 const humanPlayer = document.querySelector('#player2');
 const aiPlayer = document.querySelector('#ai');
 
-//const displayController 
+const displayController = (() => {
+  const startGameBtn = document.querySelector('.start-game');
+  const restartBtn = document.querySelector('.restart-game');
+  const selectMarkerdiv = document.querySelector('.select-marker')
+  const selectOpponentdiv = document.querySelector('.enemy-select')
+
+  startGameBtn.addEventListener('click', function(e){
+    gameBoardDiv.style.display = "block"
+    selectMarkerdiv.style.display = "none"
+    selectOpponentdiv.style.display = "none"
+  })
+  console.log(restartBtn);
+
+  restartBtn.addEventListener('click', function(e){
+    console.log("button clicked");
+    for (let i = 0; i < gridItems.length; i++) {
+      gridItems[i].textContent = ""
+    }
+  } )
+
+
+  return{}
+})();
 
 const gameBoard = (() => {
+  gameBoardDiv.style.display = "none";
+
   for (let i = 0; i < gridItems.length; i++) {
     gridItems[i].addEventListener('click', playGame)
   }
@@ -54,6 +79,7 @@ const gameBoard = (() => {
         round++
         nextPlayer()
     }
+
     function playGame(e){
       insertSymbol(e.target.id);
     }
@@ -68,31 +94,22 @@ const gameBoard = (() => {
 
     function aiMove() {
       //for ai moves, get player2 symbol or mark
-      let aiSymbol = _players[1].mark
-      console.log(aiSymbol);
+      // let aiSymbol = _players[1].mark
+      let playerSymbol = _players[0].mark
       console.log(board);
-      // var availableIndices = board.map((v, i) => console.log(v)).filter((v, i) => {
-      //   console.log(!board[i]);
-      //   return !board[i];
-      // });
-      //let availableIndices = board.filter(element => element === "")
-      //console.log("avail indicies", availableIndices);
-
-      // console.log(availableIndices);
-      // console.log(availableIndices)
-      //const index = Math.floor(Math.random() * availableIndices.length);
+      let boardIsFull = board.every(e => e !== "")
+  
       let randomIndex = Math.floor(Math.random() * board.length);
-      
-      
+
       //console.log(board.includes(''))
-      console.log(randomIndex);
-      if(board[randomIndex] === ""){
-        insertSymbol(randomIndex);
-        console.log(board.length );
-        return 0
+      if(board[randomIndex] === "" ){
+        if(!boardIsFull && checkWin(board,playerSymbol)){
+          console.log('player1 won');
+          return 
+        }
+        else insertSymbol(randomIndex); 
       }
-      else if(checkDraw(board, aiSymbol)) {
-        console.log("board is full");
+      else if (boardIsFull){
         return false
       }
       else aiMove()
@@ -102,7 +119,8 @@ const gameBoard = (() => {
       //display symbol in corresponding position on div
     }
     let random = () => {
-      
+      let select = board[Math.floor(Math.random() * board.length)];
+      return select
     }
 
     function nextPlayer() {
@@ -157,23 +175,32 @@ const gameBoard = (() => {
 
     let checkDraw = function (board, mark) {
 
-      let boardIsFull = board.indexOf('')
-      //console.log( boardIsFull);
+      let boardIsFull =  board.every(e => e !== "")
      
-      if(!checkWin(board, mark) && boardIsFull === -1 ){
+      if(!checkWin(board, mark) && boardIsFull ){
         console.log("We have a tie");
         return "We have a tie !"
       }
     }
-    const _endGame = () => {
+
+    const _endGame = function () {
       for( let i = 0; i < gridItems.length; i++){
         gridItems[i].removeEventListener('click', playGame)
       }
     }
 
+    const restartGame = function (){
+      for (let i = 0; i < gridItems.length; i++) {
+        gridItems[i].addEventListener('click', function(e){
+          e.target.id = ""
+        })
+      }
+      board = new Array(9).fill('')
+    }
 
 
-    return { setPlayer, getPlayers, insertSymbol, setPlayer2HumanOrAI, checkWin, checkDraw, aiMove }
+
+    return { setPlayer, getPlayers, insertSymbol, setPlayer2HumanOrAI, checkWin, checkDraw, aiMove, restartGame, board }
 
 })();
 
