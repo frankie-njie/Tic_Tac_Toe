@@ -1,15 +1,59 @@
+body{
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 500;
+  background-color: #f4d06f;
+}
+h1{
+  font-family: 'Passion One', cursive;
+  text-align: center; 
+  font-size: 3.5rem;
+  color: #392f5a;
+}
+h3{
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.5rem ;
+  color: #392f5a;
+  margin: 18px auto;
+
+}
+button{
+  background-color: #6eccc1; 
+  border: none;
+  color: white;
+  padding: 10px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: auto 10px;
+}
+button:hover{
+  background-color: rgb(21, 219, 219);
+}
+button:active{
+  background-color: #52a59b;
+}
+.playerSelections{
+  text-align: center;
+  margin: 4% auto
+}
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
-  background-color: #EAEAEA;
+  background-color:#fff8f0;
+  width: 55%;
+  height: 40%;
+  margin: 5% auto;
   /* padding: 10px; */
 }
 
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 25px;
+  padding: 30px;
   font-size: 30px;
   text-align: center;
+  grid-template-columns: 80px 80px 80px;
+  grid-template-rows: 80px 80px 80px;
+  
 }
-/*  */

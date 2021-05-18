@@ -2,46 +2,47 @@ let marker_x = document.getElementById('marker-x');
 let marker_o = document.getElementById('marker-o');
 const gameBoardDiv =document.querySelector('.gameboard')
 const gridItems = document.getElementsByClassName('grid-item');
-const humanPlayer = document.querySelector('#player2');
-const aiPlayer = document.querySelector('#ai');
 
-const displayController = (() => {
-  const startGameBtn = document.querySelector('.start-game');
-  const restartBtn = document.querySelector('.restart-game');
-  const selectMarkerdiv = document.querySelector('.select-marker')
-  const selectOpponentdiv = document.querySelector('.enemy-select')
-
-  startGameBtn.addEventListener('click', function(e){
-    gameBoardDiv.style.display = "block"
-    selectMarkerdiv.style.display = "none"
-    selectOpponentdiv.style.display = "none"
-  })
-  console.log(restartBtn);
-
-  restartBtn.addEventListener('click', function(e){
-    console.log("button clicked");
-    for (let i = 0; i < gridItems.length; i++) {
-      gridItems[i].textContent = ""
-    }
-  } )
+const restartBtn = document.querySelector('.restart-game');
 
 
-  return{}
-})();
+
+
+// const displayController = (() => {
+//   const startGameBtn = document.querySelector('.start-game');
+//   const selectMarkerdiv = document.querySelector('.select-marker')
+//   const selectOpponentdiv = document.querySelector('.enemy-select')
+
+//   startGameBtn.addEventListener('click', function(e){
+//     gameBoardDiv.style.display = "block"
+//     selectMarkerdiv.style.visibility = "hidden"
+//     selectOpponentdiv.style.visibility = "hidden"
+//     startGameBtn.style.visibility = "hidden"
+//   })
+  
+//   const displayWinner = function (){
+
+//   }
+
+
+
+//   return{}
+// })();
+
 
 const gameBoard = (() => {
-  gameBoardDiv.style.display = "none";
+  //gameBoardDiv.style.display = "none";
+
+  const _players = []
+  let board = new Array(9).fill('')
+  let isPlayer2HumanOrAI = false
+  let round = 0
+  //let endGame = false
+  console.log(board);
 
   for (let i = 0; i < gridItems.length; i++) {
     gridItems[i].addEventListener('click', playGame)
   }
-
-    const _players = []
-    let board = new Array(9).fill('')
-    let isPlayer2HumanOrAI = false
-    let round = 0
-    //let endGame = false
-    console.log(board);
 
     function setPlayer(index, p) {
         _players[index] = p
@@ -66,8 +67,7 @@ const gameBoard = (() => {
         if(checkWin(board, player.mark) || checkDraw(board, player.mark)){
           _endGame();
         }
-        
-        //console.log(board);
+
             /**
              * if horizontal wins, end game
              * if vertical wins, end game
@@ -86,9 +86,6 @@ const gameBoard = (() => {
 
     function setPlayer2HumanOrAI(opponent, opponentSymbol) {
         isPlayer2HumanOrAI = opponent;
-        //const isAI = opponent === 'ai';
-        // const player2 = { ...gameBoard.getPlayers()[1], isAI }
-        // gameBoard.setPlayer(1, player2);
         console.log(isPlayer2HumanOrAI);
     }
 
@@ -96,12 +93,9 @@ const gameBoard = (() => {
       //for ai moves, get player2 symbol or mark
       // let aiSymbol = _players[1].mark
       let playerSymbol = _players[0].mark
-      console.log(board);
       let boardIsFull = board.every(e => e !== "")
-  
       let randomIndex = Math.floor(Math.random() * board.length);
 
-      //console.log(board.includes(''))
       if(board[randomIndex] === "" ){
         if(!boardIsFull && checkWin(board,playerSymbol)){
           console.log('player1 won');
@@ -114,13 +108,6 @@ const gameBoard = (() => {
       }
       else aiMove()
 
-      
-      //input player2symbol in a random position in board array
-      //display symbol in corresponding position on div
-    }
-    let random = () => {
-      let select = board[Math.floor(Math.random() * board.length)];
-      return select
     }
 
     function nextPlayer() {
@@ -190,23 +177,28 @@ const gameBoard = (() => {
     }
 
     const restartGame = function (){
+      round = 0;
       for (let i = 0; i < gridItems.length; i++) {
-        gridItems[i].addEventListener('click', function(e){
-          e.target.id = ""
-        })
+        gridItems[i].textContent = ""
       }
-      board = new Array(9).fill('')
+      board = new Array(9).fill('');
+      for (let i = 0; i < gridItems.length; i++) {
+        gridItems[i].addEventListener('click', playGame)
+      }
     }
 
+    restartBtn.addEventListener('click', restartGame )
 
-
-    return { setPlayer, getPlayers, insertSymbol, setPlayer2HumanOrAI, checkWin, checkDraw, aiMove, restartGame, board }
+    return { setPlayer, getPlayers, insertSymbol, setPlayer2HumanOrAI, checkWin, checkDraw, aiMove, restartGame}
 
 })();
 
 
 
 const createPlayers = (() => {
+  const humanPlayer = document.querySelector('#player2');
+  const aiPlayer = document.querySelector('#ai');
+
   function Player(mark) {
     return { mark }
   }
