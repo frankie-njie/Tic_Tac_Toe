@@ -8,13 +8,14 @@ h1{
   text-align: center; 
   font-size: 3.5rem;
   color: #392f5a;
+  margin-top: 5%;
 }
 h3{
   font-family: 'Epilogue', sans-serif;
   font-size: 1.5rem ;
   color: #392f5a;
   margin: 18px auto;
-
+  text-align: center;
 }
 button{
   background-color: #6eccc1; 
@@ -30,26 +31,37 @@ button{
 button:hover{
   background-color: rgb(21, 219, 219);
 }
-button:active{
+button:focus{
   background-color: #52a59b;
 }
 .playerSelections{
   text-align: center;
   margin: 4% auto
 }
+.game-buttons{
+  text-align: center;
+  margin:  auto;
+}
+
+/* hr{
+  width: 70%;
+  border: 1px solid #392f5a;
+  margin: 3% auto;
+  border-radius: 10px;
+} */
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
   background-color:#fff8f0;
-  width: 55%;
+  width: 45%;
   height: 40%;
   margin: 5% auto;
   /* padding: 10px; */
 }
 
 .grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  background-color: #fff8f0;
+  border: 1px solid rgba(102, 102, 102, 0.8);
   padding: 30px;
   font-size: 30px;
   text-align: center;

@@ -1,42 +1,56 @@
-let marker_x = document.getElementById('marker-x');
-let marker_o = document.getElementById('marker-o');
+
 const gameBoardDiv =document.querySelector('.gameboard')
 const gridItems = document.getElementsByClassName('grid-item');
-
+const startGameBtn = document.querySelector('.start-game');
 const restartBtn = document.querySelector('.restart-game');
+let results = document.getElementById("results");
 
 
 
 
-// const displayController = (() => {
-//   const startGameBtn = document.querySelector('.start-game');
-//   const selectMarkerdiv = document.querySelector('.select-marker')
-//   const selectOpponentdiv = document.querySelector('.enemy-select')
-
-//   startGameBtn.addEventListener('click', function(e){
-//     gameBoardDiv.style.display = "block"
-//     selectMarkerdiv.style.visibility = "hidden"
-//     selectOpponentdiv.style.visibility = "hidden"
-//     startGameBtn.style.visibility = "hidden"
-//   })
+const displayController = (() => {
   
-//   const displayWinner = function (){
+  const selectMarkerdiv = document.querySelector('.select-marker')
+  const selectOpponentdiv = document.querySelector('.enemy-select')
 
-//   }
+  startGameBtn.style.visibility = "hidden"
+
+  startGameBtn.addEventListener('click', function(e){
+    gameBoardDiv.style.display = "block"
+    selectMarkerdiv.style.display = "none"
+    selectOpponentdiv.style.display = "none"
+    startGameBtn.style.display = "none"
+    restartBtn.style.display = "inline"
+  })
+  
+  const displayWinner = function (mark){
+    let winner = document.createElement('h3');
+    winner.textContent = `The winner is Player ${mark}`;
+    results.appendChild(winner);
+  }
+  
+  const displayDraw = function(){
+    let results = document.getElementById("results");
+    let draw = document.createElement('h3');
+    winner.textContent = `We have a Tie`;
+    results.appendChild(draw);
+  }
 
 
 
-//   return{}
-// })();
+  return{displayWinner, displayDraw}
+})();
 
 
 const gameBoard = (() => {
-  //gameBoardDiv.style.display = "none";
+  gameBoardDiv.style.display = "none";
+  restartBtn.style.display = "none"
 
   const _players = []
   let board = new Array(9).fill('')
   let isPlayer2HumanOrAI = false
   let round = 0
+  let winner 
   //let endGame = false
   console.log(board);
 
@@ -64,8 +78,14 @@ const gameBoard = (() => {
         element.textContent = player.mark
         board[id] = player.mark
         
-        if(checkWin(board, player.mark) || checkDraw(board, player.mark)){
+        // if(checkWin(board, player.mark) || checkDraw(board, player.mark)){
+        //   _endGame();
+        // }
+        if(checkWin(board, player.mark)){
+          displayController.displayWinner(player.mark.toUpperCase())
           _endGame();
+        }else if(checkDraw(board, player.mark)){
+          displayController.displayDraw();
         }
 
             /**
@@ -166,7 +186,8 @@ const gameBoard = (() => {
      
       if(!checkWin(board, mark) && boardIsFull ){
         console.log("We have a tie");
-        return "We have a tie !"
+        winner = "We have a Tie"
+        return true
       }
     }
 
@@ -185,6 +206,8 @@ const gameBoard = (() => {
       for (let i = 0; i < gridItems.length; i++) {
         gridItems[i].addEventListener('click', playGame)
       }
+      results.innerHTML = "";
+
     }
 
     restartBtn.addEventListener('click', restartGame )
@@ -196,6 +219,8 @@ const gameBoard = (() => {
 
 
 const createPlayers = (() => {
+  let marker_x = document.getElementById('marker-x');
+  let marker_o = document.getElementById('marker-o');
   const humanPlayer = document.querySelector('#player2');
   const aiPlayer = document.querySelector('#ai');
 
@@ -220,10 +245,12 @@ marker_x.addEventListener('click', function(e) {
 humanPlayer.addEventListener('click', function(e){
   console.log(player2);
   gameBoard.setPlayer2HumanOrAI('human',player2)
+  startGameBtn.style.visibility = "visible"
 })
 aiPlayer.addEventListener('click', function(e) {
   console.log(e.target.value);
   gameBoard.setPlayer2HumanOrAI('ai', player2)
+  startGameBtn.style.visibility = "visible"
 })
 })();
 
