@@ -32,7 +32,7 @@ const displayController = (() => {
   const displayDraw = function(){
     let results = document.getElementById("results");
     let draw = document.createElement('h3');
-    winner.textContent = `We have a Tie`;
+    draw.textContent = `We have a Tie`;
     results.appendChild(draw);
   }
 
