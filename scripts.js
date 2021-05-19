@@ -50,9 +50,6 @@ const gameBoard = (() => {
   let board = new Array(9).fill('')
   let isPlayer2HumanOrAI = false
   let round = 0
-  let winner 
-  //let endGame = false
-  console.log(board);
 
   for (let i = 0; i < gridItems.length; i++) {
     gridItems[i].addEventListener('click', playGame)
@@ -110,7 +107,6 @@ const gameBoard = (() => {
     }
 
     function aiMove() {
-      //for ai moves, get player2 symbol or mark
       // let aiSymbol = _players[1].mark
       let playerSymbol = _players[0].mark
       let boardIsFull = board.every(e => e !== "")
@@ -127,7 +123,6 @@ const gameBoard = (() => {
         return false
       }
       else aiMove()
-
     }
 
     function nextPlayer() {
@@ -253,90 +248,3 @@ aiPlayer.addEventListener('click', function(e) {
   startGameBtn.style.visibility = "visible"
 })
 })();
-
-
-// To select an opponent, click human or ai
-// if human is clicked assigned player2 marker to human or if ai is clicked assign player 2 marker to ai
-// To
-
-
-
-
-// const PlayerFactory = (() => {
-//   function selectSymbol(symbol) {
-//     if (symbol !== 'x' && symbol !== 'o') {
-//       return null;
-//     }
-//     const opponentSymbol = symbol === 'x' ? 'o' : 'x';
-//     return [
-//       {
-//         symbol: symbol
-//       },
-//       {
-//         symbol: opponentSymbol
-//       },
-//     ];
-//   }
-//   return {
-//     createPlayer: createPlayer
-//   };
-// })();
-//
-// const BoardFactory = (() => {
-//   function createBoard() {
-//     return {
-//       cells: new Array(9).fill('');
-//       nextPlayer: null,
-//     };
-//   }
-//
-//   function horizontalWin({cells}, playerSymbol) {
-//     const aWin = cells[0] === cells[1] === cells[2] ||
-//       cells[3] === cells[4] === cells[5] ||
-//       cells[6] === cells[7] === cells[8];
-//     return aWin ? playerSymbol: false;
-//   }
-//
-//   function verticalWin({cells}, playerSymbol) {
-//     const aWin = cells[0] === cells[3] === cells[6] ||
-//       cells[1] === cells[4] === cells[7] ||
-//       cells[2] === cells[5] === cells[8];
-//     return aWin ? playerSymbol: false;
-//   }
-//
-//   function diagonalWin({cells}, playerSymbol) {
-//     const aWin = cells[0] === cells[4] === cells[8] ||
-//       cells[2] === cells[4] === cells[6];
-//     return aWin ? playerSymbol: false;
-//   }
-//
-//   function weHaveAWinner(board, playerSymbol) {
-//     return horizontalWin(board, playerSymbol) ||
-//       verticalWin(board, playerSymbol) ||
-//       diagonalWin(board, playerSymbol);
-//   }
-//
-//   function weHaveADraw(board) {
-//     const boardIsFull = board.cells.every(cell => !!cell);
-//     if (boardIsFull && !weHaveAWinner(board)) {
-//       return true;
-//     }
-//     return false;
-//   }
-//
-//   function play(board, playerSymbol, index) {
-//     if (!!board.cells[index]) {
-//       return false;
-//     }
-//     board.cells[index] = playerSymbol;
-//     board.nextPlayer = board.nextPlayer === 'x' ? 'o' : 'x';
-//     return true;
-//   }
-//
-//   return {
-//     createBoard: createBoard,
-//     weHaveADraw: weHaveADraw,
-//     weHaveAWinner: weHaveAWinner,
-//     play: play
-//   };
-// })();

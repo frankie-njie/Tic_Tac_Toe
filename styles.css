@@ -43,12 +43,6 @@ button:focus{
   margin:  auto;
 }
 
-/* hr{
-  width: 70%;
-  border: 1px solid #392f5a;
-  margin: 3% auto;
-  border-radius: 10px;
-} */
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
